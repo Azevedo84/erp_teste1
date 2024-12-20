@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Menu_Principal</class>
+ <widget class="QMainWindow" name="Menu_Principal">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>683</width>
+    <height>455</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>16777215</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>ERP Suzuki</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../../menu/icones/maquinas.jpg</normaloff>../../menu/icones/maquinas.jpg</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QWidget" name="widget" native="true">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QWidget" name="widget_7" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>88</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>88</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0.329545 rgba(255, 255, 255, 255), stop:0.339799 rgba(255, 255, 255, 255), stop:0.340909 rgba(0, 170, 255, 255), stop:0.662444 rgba(0, 170, 255, 255), stop:0.662469 rgba(0, 0, 255, 255), stop:0.670455 rgba(255, 255, 255, 255));</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="spacing">
+           <number>20</number>
+          </property>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="widget_8" native="true"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QWidget" name="widget_2" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>150</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>150</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QWidget" name="widget_4" native="true">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <property name="leftMargin">
+           <number>6</number>
+          </property>
+          <property name="topMargin">
+           <number>6</number>
+          </property>
+          <property name="rightMargin">
+           <number>6</number>
+          </property>
+          <property name="bottomMargin">
+           <number>6</number>
+          </property>
+          <item>
+           <widget class="QWidget" name="widget_6" native="true">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QWidget" name="widget_5" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <property name="leftMargin">
+              <number>6</number>
+             </property>
+             <property name="topMargin">
+              <number>6</number>
+             </property>
+             <property name="rightMargin">
+              <number>6</number>
+             </property>
+             <property name="bottomMargin">
+              <number>6</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_versao">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>18</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>18</height>
+                </size>
+               </property>
+               <property name="sizeIncrement">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_DataVersao">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>18</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>18</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_Usuario">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>18</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>18</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="widget_3" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>400</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>400</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="scaledContents">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>683</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <widget class="QMenu" name="menu_Producao">
+    <property name="title">
+     <string>Produção</string>
+    </property>
+    <addaction name="action_OP_Incluir"/>
+    <addaction name="action_OP_Alterar"/>
+    <addaction name="action_OP_Consumo"/>
+    <addaction name="action_OP_Encerar"/>
+    <addaction name="action_OP_Excluir"/>
+    <addaction name="action_Producao_Status"/>
+   </widget>
+   <widget class="QMenu" name="menu_Estoque">
+    <property name="title">
+     <string>Almoxarifado</string>
+    </property>
+    <addaction name="action_Est_Mov"/>
+    <addaction name="action_Est_Final"/>
+   </widget>
+   <widget class="QMenu" name="menu_Produto">
+    <property name="title">
+     <string>Cadastros</string>
+    </property>
+    <widget class="QMenu" name="menuProduto">
+     <property name="title">
+      <string>Produto</string>
+     </property>
+     <addaction name="action_Prod_Incluir"/>
+     <addaction name="actionAlterar_Produto"/>
+     <addaction name="action_Consultar_Produto"/>
+     <addaction name="actionPesquisar_Produto"/>
+     <addaction name="actionImprimir_Fichas"/>
+    </widget>
+    <widget class="QMenu" name="menuProduto_Preliminar">
+     <property name="title">
+      <string>Produto Preliminar</string>
+     </property>
+     <addaction name="action_Pre_Incluir_2"/>
+     <addaction name="action_Pre_Status_2"/>
+    </widget>
+    <addaction name="menuProduto_Preliminar"/>
+    <addaction name="menuProduto"/>
+    <addaction name="actionConjunto"/>
+    <addaction name="actionCliente"/>
+    <addaction name="actionFornecedor"/>
+    <addaction name="actionFuncionario"/>
+    <addaction name="actionNatureza_Opera_o_CFOP"/>
+    <addaction name="actionTipo_de_Material"/>
+    <addaction name="actionProjetos"/>
+    <addaction name="actionLocais_de_Estoque"/>
+   </widget>
+   <widget class="QMenu" name="menu_Compras">
+    <property name="title">
+     <string>Compras</string>
+    </property>
+    <widget class="QMenu" name="menu_Solicitacao">
+     <property name="title">
+      <string>Solicitação</string>
+     </property>
+     <addaction name="action_Sol_Incluir"/>
+    </widget>
+    <widget class="QMenu" name="menu_Requisicao">
+     <property name="title">
+      <string>Requisição</string>
+     </property>
+     <addaction name="action_Req_Incluir"/>
+    </widget>
+    <widget class="QMenu" name="menu_OC">
+     <property name="title">
+      <string>Ordem de Compra</string>
+     </property>
+     <addaction name="action_OC_Incluir"/>
+     <addaction name="action_OC_Alterar"/>
+    </widget>
+    <addaction name="menu_Solicitacao"/>
+    <addaction name="menu_Requisicao"/>
+    <addaction name="menu_OC"/>
+    <addaction name="action_Compras_Status"/>
+   </widget>
+   <widget class="QMenu" name="menu_Plano">
+    <property name="title">
+     <string>PCP</string>
+    </property>
+    <addaction name="action_Pcp_Previsao"/>
+    <addaction name="action_Pcp_Produto"/>
+   </widget>
+   <widget class="QMenu" name="menu_Vendas">
+    <property name="title">
+     <string>Vendas</string>
+    </property>
+    <widget class="QMenu" name="menu_PI">
+     <property name="title">
+      <string>Pedido Interno (PI)</string>
+     </property>
+     <addaction name="action_PI_Incluir"/>
+     <addaction name="action_PI_Alterar"/>
+    </widget>
+    <widget class="QMenu" name="menu_OV">
+     <property name="title">
+      <string>Ordem de Venda (OV)</string>
+     </property>
+     <addaction name="action_OV_Incluir"/>
+     <addaction name="action_OV_Alterar"/>
+    </widget>
+    <addaction name="menu_PI"/>
+    <addaction name="menu_OV"/>
+    <addaction name="action_Vendas_Status"/>
+   </widget>
+   <widget class="QMenu" name="menuEstrutura">
+    <property name="title">
+     <string>Estrutura</string>
+    </property>
+    <addaction name="actionCadastrar_Vers_o"/>
+    <addaction name="action_Estr_Incluir"/>
+    <addaction name="action_Estr_Custo"/>
+   </widget>
+   <widget class="QMenu" name="menuConsum_veis">
+    <property name="title">
+     <string>Consumíveis</string>
+    </property>
+    <addaction name="action_CI_Incluir"/>
+   </widget>
+   <addaction name="menu_Produto"/>
+   <addaction name="menuEstrutura"/>
+   <addaction name="menu_Compras"/>
+   <addaction name="menu_Producao"/>
+   <addaction name="menuConsum_veis"/>
+   <addaction name="menu_Plano"/>
+   <addaction name="menu_Vendas"/>
+   <addaction name="menu_Estoque"/>
+  </widget>
+  <action name="action_Incluir_Sol">
+   <property name="text">
+    <string>Inclui Solicitação</string>
+   </property>
+  </action>
+  <action name="action_Consulta_Sol">
+   <property name="text">
+    <string>Consulta Solicitação</string>
+   </property>
+  </action>
+  <action name="action_Consome_OS">
+   <property name="text">
+    <string>&quot;ANTIGO&quot; Consumo OS</string>
+   </property>
+  </action>
+  <action name="action_IncluirOC_PDF">
+   <property name="text">
+    <string>Inclui OC (PDF)</string>
+   </property>
+  </action>
+  <action name="action_Inclui_OP">
+   <property name="text">
+    <string>Inclui OP</string>
+   </property>
+  </action>
+  <action name="action_Altera_OP">
+   <property name="text">
+    <string>Altera OP</string>
+   </property>
+  </action>
+  <action name="action_Consulta_OP">
+   <property name="text">
+    <string>Consulta OP</string>
+   </property>
+  </action>
+  <action name="action_Consumo_OP">
+   <property name="text">
+    <string>Consumo OP</string>
+   </property>
+  </action>
+  <action name="action_Inclui_Req7">
+   <property name="text">
+    <string>Inclui Requisição1</string>
+   </property>
+  </action>
+  <action name="a1ction_Consulta_Req">
+   <property name="text">
+    <string>Consulta Requisição1</string>
+   </property>
+  </action>
+  <action name="action_Produto_PCP">
+   <property name="text">
+    <string>Consulta Produto1</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_Encerra_OP">
+   <property name="text">
+    <string>Encerra OP</string>
+   </property>
+  </action>
+  <action name="action_Est_Mov">
+   <property name="text">
+    <string>Movimentação</string>
+   </property>
+  </action>
+  <action name="actionCadastro_Equipamento_N_S_rie">
+   <property name="text">
+    <string>Cadastro Equipamento (Nº Série)</string>
+   </property>
+  </action>
+  <action name="actionCadastro_Par_metro_Checklist">
+   <property name="text">
+    <string>Cadastro Parâmetro/Checklist</string>
+   </property>
+  </action>
+  <action name="actionIncluir_Par_metro_Check_M_quina">
+   <property name="text">
+    <string>Incluir Parâmetro Check/Máquina</string>
+   </property>
+  </action>
+  <action name="actionIncluir_M_quinas_ao_Cliente">
+   <property name="text">
+    <string>Incluir Máquinas/Cliente</string>
+   </property>
+  </action>
+  <action name="actionIncluir_Equipamento_M_quina">
+   <property name="text">
+    <string>Incluir Equipamento/Máquina</string>
+   </property>
+  </action>
+  <action name="action_MP_Maquina">
+   <property name="text">
+    <string>Maquinas</string>
+   </property>
+  </action>
+  <action name="action_MP_Equipamento">
+   <property name="text">
+    <string>Equipamentos</string>
+   </property>
+  </action>
+  <action name="action_MP_EtapaMaq">
+   <property name="text">
+    <string>Etapas/Maquina</string>
+   </property>
+  </action>
+  <action name="action_MP_ParaMaq">
+   <property name="text">
+    <string>Parâmetro Check/Máquina</string>
+   </property>
+  </action>
+  <action name="action_MP_EquipMaq">
+   <property name="text">
+    <string>Equipamento/Máquina</string>
+   </property>
+  </action>
+  <action name="action_Incluir_MP">
+   <property name="text">
+    <string>Incluir MP</string>
+   </property>
+  </action>
+  <action name="action_MP_Acompanha">
+   <property name="text">
+    <string>Acompanhar MP</string>
+   </property>
+  </action>
+  <action name="action_MP_Parametro">
+   <property name="text">
+    <string>Parâmetros</string>
+   </property>
+  </action>
+  <action name="action_MP_Usuario">
+   <property name="text">
+    <string>Usuários</string>
+   </property>
+  </action>
+  <action name="action_MP_MaqCliente">
+   <property name="text">
+    <string>Máquina/Cliente</string>
+   </property>
+  </action>
+  <action name="action_Incluir_PCP">
+   <property name="text">
+    <string>Incluir Plano</string>
+   </property>
+  </action>
+  <action name="action_Previsao_PCP">
+   <property name="text">
+    <string>Previsão Entrega Plano1</string>
+   </property>
+  </action>
+  <action name="action_IncluirOC">
+   <property name="text">
+    <string>Inclui OC (Manual)</string>
+   </property>
+  </action>
+  <action name="action_AlteraOC">
+   <property name="text">
+    <string>Altera OC</string>
+   </property>
+  </action>
+  <action name="action_Inclui_OP_Lote">
+   <property name="text">
+    <string>Inclui OP (Lote)</string>
+   </property>
+  </action>
+  <action name="action_Exclui_OP">
+   <property name="text">
+    <string>Exclui OP</string>
+   </property>
+  </action>
+  <action name="action_Est_Final">
+   <property name="text">
+    <string>Estoque Final</string>
+   </property>
+  </action>
+  <action name="action_Prod_Status">
+   <property name="text">
+    <string>Consulta Status</string>
+   </property>
+  </action>
+  <action name="actionCusto_Pre_o_de_Venda">
+   <property name="text">
+    <string>Custo/Preço Estrutura</string>
+   </property>
+  </action>
+  <action name="action_Estr_Incluir">
+   <property name="text">
+    <string>Incluir/Editar</string>
+   </property>
+  </action>
+  <action name="action_Estr_Custo">
+   <property name="text">
+    <string>Custo/Preço Venda</string>
+   </property>
+  </action>
+  <action name="action_Sol_Incluir">
+   <property name="text">
+    <string>Incluir Sol</string>
+   </property>
+  </action>
+  <action name="action_Compras_Status">
+   <property name="text">
+    <string>Status Compras</string>
+   </property>
+  </action>
+  <action name="action_Req_Incluir">
+   <property name="text">
+    <string>Incluir Req</string>
+   </property>
+  </action>
+  <action name="action_Consulta_Req">
+   <property name="text">
+    <string>Consultar Req</string>
+   </property>
+  </action>
+  <action name="action_OC_Incluir">
+   <property name="text">
+    <string>Incluir OC</string>
+   </property>
+  </action>
+  <action name="action_OC_Alterar">
+   <property name="text">
+    <string>Alterar OC</string>
+   </property>
+  </action>
+  <action name="action_Pcp_Previsao">
+   <property name="text">
+    <string>Materiais Pendentes (Previsão)</string>
+   </property>
+  </action>
+  <action name="action_Pcp_Produto">
+   <property name="text">
+    <string>Situação Produto</string>
+   </property>
+  </action>
+  <action name="action_Plano_Produto">
+   <property name="text">
+    <string>Previsão Produto</string>
+   </property>
+  </action>
+  <action name="action_PI_Incluir">
+   <property name="text">
+    <string>Incluir PI</string>
+   </property>
+  </action>
+  <action name="action_PI_Alterar">
+   <property name="text">
+    <string>Alterar PI</string>
+   </property>
+  </action>
+  <action name="action_PI_Previsao">
+   <property name="text">
+    <string>Previsão PI</string>
+   </property>
+  </action>
+  <action name="action_OV_Incluir">
+   <property name="text">
+    <string>Incluir OV</string>
+   </property>
+  </action>
+  <action name="action_OV_Alterar">
+   <property name="text">
+    <string>Alterar OV</string>
+   </property>
+  </action>
+  <action name="action_Vendas_Status">
+   <property name="text">
+    <string>Status Vendas</string>
+   </property>
+  </action>
+  <action name="action_OP_Incluir">
+   <property name="text">
+    <string>Incluir OP</string>
+   </property>
+  </action>
+  <action name="action_OP_Lote">
+   <property name="text">
+    <string>Incluir OP (Lote)</string>
+   </property>
+  </action>
+  <action name="action_OP_Alterar">
+   <property name="text">
+    <string>Alterar OP</string>
+   </property>
+  </action>
+  <action name="action_OP_Consumo">
+   <property name="text">
+    <string>Consumir OP</string>
+   </property>
+  </action>
+  <action name="action_OP_Encerar">
+   <property name="text">
+    <string>Encerrar OP</string>
+   </property>
+  </action>
+  <action name="action_OP_Excluir">
+   <property name="text">
+    <string>Excluir OP</string>
+   </property>
+  </action>
+  <action name="action_Producao_Status">
+   <property name="text">
+    <string>Status OP</string>
+   </property>
+  </action>
+  <action name="actionIncluir_CI">
+   <property name="text">
+    <string>Incluir CI</string>
+   </property>
+  </action>
+  <action name="action_Pre_Incluir">
+   <property name="text">
+    <string>Incluir Pré</string>
+   </property>
+  </action>
+  <action name="action_Pre_Status">
+   <property name="text">
+    <string>Status Pré</string>
+   </property>
+  </action>
+  <action name="actionCusto_Venda_de_Produto">
+   <property name="text">
+    <string>Custo/Venda de Produto</string>
+   </property>
+  </action>
+  <action name="action_CI_Incluir">
+   <property name="text">
+    <string>Incluir CI</string>
+   </property>
+  </action>
+  <action name="action_Pre_Incluir_2">
+   <property name="text">
+    <string>Incluir Pré</string>
+   </property>
+  </action>
+  <action name="action_Pre_Status_2">
+   <property name="text">
+    <string>Status Pré</string>
+   </property>
+  </action>
+  <action name="actionidfgfd">
+   <property name="text">
+    <string>idfgfd</string>
+   </property>
+  </action>
+  <action name="action_Prod_Incluir">
+   <property name="text">
+    <string>Incluir Produto</string>
+   </property>
+  </action>
+  <action name="action_Consultar_Produto">
+   <property name="text">
+    <string>Consultar Produto</string>
+   </property>
+  </action>
+  <action name="actionAlterar_Produto">
+   <property name="text">
+    <string>Alterar Produto</string>
+   </property>
+  </action>
+  <action name="actionPesquisar_Produto">
+   <property name="text">
+    <string>Pesquisar Produto</string>
+   </property>
+  </action>
+  <action name="actionCliente">
+   <property name="text">
+    <string>Cliente</string>
+   </property>
+  </action>
+  <action name="actionFornecedor">
+   <property name="text">
+    <string>Fornecedor</string>
+   </property>
+  </action>
+  <action name="actionFuncionario">
+   <property name="text">
+    <string>Funcionário</string>
+   </property>
+  </action>
+  <action name="actionConjunto">
+   <property name="text">
+    <string>Conjunto</string>
+   </property>
+  </action>
+  <action name="actionNatureza_Opera_o_CFOP">
+   <property name="text">
+    <string>Natureza Operação (CFOP)</string>
+   </property>
+  </action>
+  <action name="actionTipo_de_Material">
+   <property name="text">
+    <string>Tipo de Material</string>
+   </property>
+  </action>
+  <action name="actionProjetos">
+   <property name="text">
+    <string>Projeto</string>
+   </property>
+  </action>
+  <action name="actionLocais_de_Estoque">
+   <property name="text">
+    <string>Local de Estoque</string>
+   </property>
+  </action>
+  <action name="actionCadastrar_Vers_o">
+   <property name="text">
+    <string>Cadastrar Versão</string>
+   </property>
+  </action>
+  <action name="actionImprimir_Fichas">
+   <property name="text">
+    <string>Imprimir Fichas</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
