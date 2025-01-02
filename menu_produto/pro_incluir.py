@@ -5,7 +5,7 @@ from forms.tela_prod_incluir import *
 from banco_dados.controle_erros import grava_erro_banco
 from comandos.tabelas import extrair_tabela, lanca_tabela, layout_cabec_tab
 from comandos.telas import tamanho_aplicacao, icone
-from comandos.lines import validador_decimal
+from comandos.lines import validador_decimal, validador_so_numeros
 from comandos.conversores import data_brasileiro
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 import inspect
@@ -33,6 +33,7 @@ class TelaProdutoIncluir(QMainWindow, Ui_MainWindow):
 
         self.btn_Salvar.clicked.connect(self.verifica_salvamento)
 
+        validador_so_numeros(self.line_Codigo)
         validador_decimal(self.line_NCM, numero=9999999.000)
 
         self.inicio_manipula_pre_cadastro()
