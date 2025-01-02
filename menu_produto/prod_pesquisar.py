@@ -1,5 +1,5 @@
 import sys
-from banco_dados.conexao import conecta
+from banco_dados.conexao import conectar_banco_nuvem
 from forms.tela_prod_pesquisar import *
 from banco_dados.controle_erros import grava_erro_banco
 from comandos.tabelas import lanca_tabela, layout_cabec_tab, extrair_tabela
@@ -199,31 +199,27 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
     def localizacao_com_estoque(self, localizacao):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
             tabela = []
 
             cursor = conecta.cursor()
-            cursor.execute(f"SELECT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
+            cursor.execute(f"SELECT prod.id_siger, prod.descricao, "
+                           f"COALESCE(prod.complementar, ''), "
+                           f"COALESCE(prod.referencia, ''), "
+                           f"prod.um, COALESCE(prod.ncm, '') "
+                           f"FROM PRODUTO as prod "
                            f"WHERE prod.localizacao LIKE '%{localizacao}%' "
                            f"AND prod.quantidade > 0 "
                            f"ORDER BY prod.descricao;")
             detalhes_produto = cursor.fetchall()
             if detalhes_produto:
                 for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
+                    cod, descr, compl, ref, um, ncm = tudo
 
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
+                    dados = (cod, descr, compl, ref, um, ncm)
                     tabela.append(dados)
 
             if tabela:
@@ -236,7 +232,12 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def estoque(self):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -271,7 +272,12 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def movimentacao(self):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -307,7 +313,12 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def estoque_movimentacao(self):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -344,7 +355,12 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def estoque_movimentacao_pal1_pal2_pal3(self, descricao1, descricao2, descricao3):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -390,8 +406,13 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
 
     def estoque_movimentacao_pal1_pal2(self, descricao1, descricao2):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -434,8 +455,13 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
 
     def estoque_movimentacao_pal1_pal3(self, descricao1, descricao3):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -478,8 +504,13 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
 
     def estoque_movimentacao_pal2_pal3(self, descricao2, descricao3):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -522,8 +553,13 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
 
     def estoque_movimentacao_pal1(self, descricao1):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -563,8 +599,13 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
 
     def estoque_movimentacao_pal2(self, descricao2):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -604,8 +645,13 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
 
     def estoque_movimentacao_pal3(self, descricao3):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -645,8 +691,13 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
 
     def estoque_pal1_pal2_pal3(self, descricao1, descricao2, descricao3):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -691,8 +742,13 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
 
     def estoque_pal1_pal2(self, descricao1, descricao2):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -734,8 +790,13 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
 
     def estoque_pal1_pal3(self, descricao1, descricao3):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -777,8 +838,13 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
 
     def estoque_pal2_pal3(self, descricao2, descricao3):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -820,8 +886,13 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
 
     def estoque_pal1(self, descricao1):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -860,8 +931,13 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
 
     def estoque_pal2(self, descricao2):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -900,8 +976,13 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
 
     def estoque_pal3(self, descricao3):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -941,7 +1022,12 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def movimentacao_pal1_pal2_pal3(self, descricao1, descricao2, descricao3):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -986,8 +1072,13 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
 
     def movimentacao_pal1_pal2(self, descricao1, descricao2):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -1030,7 +1121,12 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def movimentacao_pal1_pal3(self, descricao1, descricao3):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -1072,8 +1168,13 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
 
     def movimentacao_pal2_pal3(self, descricao2, descricao3):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -1116,7 +1217,12 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def movimentacao_pal1(self, descricao1):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -1156,7 +1262,12 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def movimentacao_pal2(self, descricao2):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -1196,7 +1307,12 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def movimentacao_pal3(self, descricao3):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -1236,7 +1352,12 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def pal1_pal2_pal3(self, descricao1, descricao2, descricao3):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -1279,8 +1400,13 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
 
     def pal1_pal2(self, descricao1, descricao2):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -1321,7 +1447,12 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def pal1_pal3(self, descricao1, descricao3):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -1361,8 +1492,13 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
 
     def pal2_pal3(self, descricao2, descricao3):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -1403,7 +1539,12 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def pal1(self, descricao1):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -1441,7 +1582,12 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def pal2(self, descricao2):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -1479,7 +1625,12 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def pal3(self, descricao3):
+        conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
 
@@ -1516,6 +1667,10 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
 
     def gerar_excel(self):
         try:

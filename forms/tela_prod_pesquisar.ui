@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1277</width>
-    <height>762</height>
+    <width>702</width>
+    <height>436</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -155,7 +155,7 @@
              </size>
             </property>
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(182, 182, 182);</string>
+             <string notr="true">background-color: rgb(208, 208, 208);</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_4">
              <property name="leftMargin">
@@ -186,7 +186,7 @@
                </property>
                <property name="font">
                 <font>
-                 <pointsize>11</pointsize>
+                 <pointsize>10</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
@@ -248,7 +248,7 @@
                   </property>
                   <property name="font">
                    <font>
-                    <pointsize>9</pointsize>
+                    <pointsize>8</pointsize>
                     <weight>75</weight>
                     <bold>true</bold>
                    </font>
@@ -283,7 +283,7 @@
                   </property>
                   <property name="font">
                    <font>
-                    <pointsize>9</pointsize>
+                    <pointsize>8</pointsize>
                    </font>
                   </property>
                   <property name="styleSheet">
@@ -346,7 +346,7 @@
                   </property>
                   <property name="font">
                    <font>
-                    <pointsize>9</pointsize>
+                    <pointsize>8</pointsize>
                     <weight>75</weight>
                     <bold>true</bold>
                    </font>
@@ -381,7 +381,7 @@
                   </property>
                   <property name="font">
                    <font>
-                    <pointsize>9</pointsize>
+                    <pointsize>8</pointsize>
                    </font>
                   </property>
                   <property name="styleSheet">
@@ -444,7 +444,7 @@
                   </property>
                   <property name="font">
                    <font>
-                    <pointsize>9</pointsize>
+                    <pointsize>8</pointsize>
                     <weight>75</weight>
                     <bold>true</bold>
                    </font>
@@ -479,7 +479,7 @@
                   </property>
                   <property name="font">
                    <font>
-                    <pointsize>9</pointsize>
+                    <pointsize>8</pointsize>
                    </font>
                   </property>
                   <property name="styleSheet">
@@ -518,7 +518,7 @@
                   </property>
                   <property name="font">
                    <font>
-                    <pointsize>9</pointsize>
+                    <pointsize>8</pointsize>
                     <weight>75</weight>
                     <bold>true</bold>
                    </font>
@@ -541,7 +541,7 @@
                   </property>
                   <property name="font">
                    <font>
-                    <pointsize>9</pointsize>
+                    <pointsize>8</pointsize>
                     <weight>75</weight>
                     <bold>true</bold>
                    </font>
@@ -575,7 +575,7 @@
              </size>
             </property>
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(182, 182, 182);</string>
+             <string notr="true">background-color: rgb(208, 208, 208);</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_7">
              <property name="leftMargin">
@@ -606,7 +606,7 @@
                </property>
                <property name="font">
                 <font>
-                 <pointsize>11</pointsize>
+                 <pointsize>10</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
@@ -706,7 +706,7 @@
              </size>
             </property>
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(182, 182, 182);</string>
+             <string notr="true">background-color: rgb(208, 208, 208);</string>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <property name="leftMargin">
@@ -744,7 +744,7 @@
                </property>
                <property name="font">
                 <font>
-                 <pointsize>9</pointsize>
+                 <pointsize>8</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
@@ -753,7 +753,7 @@
                 <cursorShape>PointingHandCursor</cursorShape>
                </property>
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(141, 141, 141);</string>
+                <string notr="true">background-color: rgb(170, 170, 170);</string>
                </property>
                <property name="text">
                 <string>Pesquisar</string>
@@ -772,7 +772,7 @@
        <item>
         <widget class="QWidget" name="widget_4" native="true">
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(182, 182, 182);</string>
+          <string notr="true">background-color: rgb(208, 208, 208);</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <property name="leftMargin">
@@ -797,7 +797,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>11</pointsize>
+              <pointsize>10</pointsize>
               <weight>75</weight>
               <bold>true</bold>
              </font>
@@ -889,7 +889,7 @@
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(182, 182, 182);</string>
+       <string notr="true">background-color: rgb(208, 208, 208);</string>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <property name="leftMargin">
@@ -920,7 +920,7 @@
          </property>
          <property name="font">
           <font>
-           <pointsize>9</pointsize>
+           <pointsize>8</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -935,7 +935,7 @@
           <bool>false</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(141, 141, 141);</string>
+          <string notr="true">background-color: rgb(170, 170, 170);</string>
          </property>
          <property name="text">
           <string>Limpar</string>
@@ -994,7 +994,7 @@
          </property>
          <property name="font">
           <font>
-           <pointsize>9</pointsize>
+           <pointsize>8</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -1003,7 +1003,7 @@
           <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(141, 141, 141);</string>
+          <string notr="true">background-color: rgb(170, 170, 170);</string>
          </property>
          <property name="text">
           <string>Gerar Excel</string>
@@ -1035,7 +1035,7 @@
           <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(141, 141, 141);</string>
+          <string notr="true">background-color: rgb(170, 170, 170);</string>
          </property>
          <property name="text">
           <string>Salvar</string>

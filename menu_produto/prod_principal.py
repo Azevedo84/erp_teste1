@@ -1,5 +1,5 @@
 import sys
-from banco_dados.conexao import conecta
+from banco_dados.conexao import conectar_banco_nuvem
 from forms.tela_prod_principal import *
 from arquivos.chamar_arquivos import definir_caminho_arquivo
 from banco_dados.controle_erros import grava_erro_banco
@@ -163,7 +163,7 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
 
     def abrir_tela_escolher_produto(self):
         cod_prod = self.line_Codigo.text()
-        from menu_cadastros.prod_pesquisar import TelaProdutoPesquisar
+        from menu_produto.prod_pesquisar import TelaProdutoPesquisar
 
         self.escolher_produto = TelaProdutoPesquisar(cod_prod, True)
         self.escolher_produto.produto_escolhido.connect(self.atualizar_produto_entry)
@@ -177,7 +177,7 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
         try:
             codigo = self.line_Codigo.text()
 
-            from menu_cadastros.prod_mov import TelaProdutoMovimentacao
+            from menu_produto.prod_mov import TelaProdutoMovimentacao
             self.tela_movimentacao = TelaProdutoMovimentacao(codigo)
             self.tela_movimentacao.show()
 
@@ -190,7 +190,7 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
         try:
             codigo = self.line_Codigo.text()
 
-            from menu_cadastros.prod_compras import TelaProdutoCompras
+            from menu_produto.prod_compras import TelaProdutoCompras
             self.tela_compras = TelaProdutoCompras(codigo)
             self.tela_compras.show()
 
@@ -227,7 +227,7 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
 
     def abrir_prod_ficha(self):
         try:
-            from menu_cadastros.prod_fichas import TelaFichasProdutos
+            from menu_produto.prod_fichas import TelaFichasProdutos
             self.tela_prod_ficha = TelaFichasProdutos()
             self.tela_prod_ficha.show()
 
@@ -238,7 +238,7 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
 
     def abrir_tela_novo(self):
         try:
-            from menu_cadastros.pro_incluir import TelaProdutoIncluir
+            from menu_produto.pro_incluir import TelaProdutoIncluir
             self.tela_prod_incluir = TelaProdutoIncluir()
             self.tela_prod_incluir.show()
 
@@ -248,6 +248,7 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
     def abrir_tela_alterar(self):
+        conecta = conectar_banco_nuvem()
         try:
             codigo = self.line_Codigo.text()
             descr = self.line_Descricao.text()
@@ -285,7 +286,7 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             dados = (codigo, data, barras_sem_espacos, descr, compl, ref, um, embalagem, kg_mt, custo_unit, local,
                      conjunto, tipo, projeto, min_str, ncm, obs)
 
-            from menu_cadastros.prod_alterar import TelaProdutoAlterar
+            from menu_produto.prod_alterar import TelaProdutoAlterar
             self.tela_prod_alterar = TelaProdutoAlterar(dados)
             self.tela_prod_alterar.alteracao.connect(self.atualizar_dados_produto)
             self.tela_prod_alterar.show()
@@ -294,6 +295,10 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
 
     def atualizar_dados_produto(self, alterado):
         try:
@@ -306,6 +311,7 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
     def excluir_produto(self):
+        conecta = conectar_banco_nuvem()
         try:
             codigo = self.line_Codigo.text()
 
@@ -326,7 +332,12 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def verifica_onde_usa_excluir(self):
+        conecta = conectar_banco_nuvem()
         try:
             codigo = self.line_Codigo.text()
 
@@ -366,7 +377,12 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def verifica_estrutura_excluir(self):
+        conecta = conectar_banco_nuvem()
         try:
             codigo = self.line_Codigo.text()
 
@@ -395,7 +411,12 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def verifica_compras_excluir(self):
+        conecta = conectar_banco_nuvem()
         try:
             codigo = self.line_Codigo.text()
 
@@ -441,7 +462,12 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def verifica_vendas_excluir(self):
+        conecta = conectar_banco_nuvem()
         try:
             codigo = self.line_Codigo.text()
 
@@ -482,7 +508,12 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def verifica_ordem_servico_excluir(self):
+        conecta = conectar_banco_nuvem()
         try:
             codigo = self.line_Codigo.text()
 
@@ -514,6 +545,10 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def verifica_line_codigo_manual(self):
         if not self.processando:
             try:
@@ -542,6 +577,7 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
                 self.processando = False
 
     def verifica_sql_produto_manual(self):
+        conecta = conectar_banco_nuvem()
         try:
             codigo_produto = self.line_Codigo.text()
             cursor = conecta.cursor()
@@ -560,7 +596,11 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            self.processando = False
+
     def lanca_dados_produto_manual(self):
+        conecta = conectar_banco_nuvem()
         try:
             codigo_produto = self.line_Codigo.text()
             cur = conecta.cursor()
@@ -629,6 +669,9 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            self.processando = False
+
     def limpa_tabelas(self):
         try:
             self.table_Estoque.setRowCount(0)
@@ -661,6 +704,7 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
     def manipula_dados_tabela_estoque(self, id_prod):
+        conecta = conectar_banco_nuvem()
         try:
             cur = conecta.cursor()
             cur.execute(f"SELECT loc.nome, sald.saldo FROM SALDO_ESTOQUE as sald "
@@ -676,7 +720,11 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            self.processando = False
+
     def manipula_dados_tabela_producao(self, cod_prod):
+        conecta = conectar_banco_nuvem()
         try:
             cursor = conecta.cursor()
             cursor.execute(f"select ordser.datainicial, ordser.dataprevisao, ordser.numero, prod.codigo, "
@@ -745,7 +793,11 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            self.processando = False
+
     def manipula_dados_tabela_estrutura(self, cod_prod):
+        conecta = conectar_banco_nuvem()
         try:
             nova_tabela = []
 
@@ -792,7 +844,12 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def manipula_dados_tabela_usado(self, cod_prod):
+        conecta = conectar_banco_nuvem()
         try:
             planilha_nova = []
 
@@ -828,7 +885,12 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def manipula_dados_tabela_mov(self, id_prod):
+        conecta = conectar_banco_nuvem()
         try:
             tabela_nova = []
 
@@ -946,7 +1008,12 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def manipula_dados_tabela_venda(self, cod_prod):
+        conecta = conectar_banco_nuvem()
         try:
             tabela_nova = []
 
@@ -1003,7 +1070,12 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def manipula_dados_tabela_compra(self, cod_prod):
+        conecta = conectar_banco_nuvem()
         try:
             tabela_nova = []
 
@@ -1088,7 +1160,12 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def manipula_dados_tabela_consumo(self, cod_prod):
+        conecta = conectar_banco_nuvem()
         try:
             tabela_nova = []
 
@@ -1180,6 +1257,10 @@ class TelaProdutoPrincipal(QMainWindow, Ui_MainWindow):
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
 
 
 if __name__ == '__main__':
