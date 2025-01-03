@@ -20,6 +20,19 @@ if select_estoque:
     for i in select_estoque:
         id_prod, local_est, saldo = i
 
+        cursor = conecta.cursor()
+        cursor.execute(f"SELECT codigo, descricao, localizacao FROM PRODUTO "
+                       f"where id = '{id_prod}';")
+        lista_produtos = cursor.fetchall()
+        if lista_produtos:
+            for ii in lista_produtos:
+                codigo, descr, local = ii
+
+                if saldo:
+                    if not local:
+                        print(ii, saldo)
+
+        """
         conecta_nuvem = conectar_banco_nuvem()
         try:
             cursor = conecta_nuvem.cursor()
@@ -27,24 +40,17 @@ if select_estoque:
             lista_completa = cursor.fetchall()
 
             if not lista_completa:
-                cursor = conecta.cursor()
-                cursor.execute(f"SELECT codigo, localizacao FROM PRODUTO "
-                               f"where id = '{id_prod}';")
-                lista_produtos = cursor.fetchall()
-                if lista_produtos:
-                    for ii in lista_produtos:
-                        codigo, local = ii
+                if local:
+                    if "Z" in local:
+                        print("Depósito Aço", local)
 
-                        if local:
-                            if "Z" in local:
-                                print("Depósito Aço", local)
-
-                            if "-" in local:
-                                local_tete = local.find("-")
-                                letra_inicial = local[:local_tete]
-
+                    elif "-" in local:
+                        local_tete = local.find("-")
+                        letra_inicial = local[:local_tete]
+                        print(local)
 
 
         finally:
             if 'conexao' in locals():
                 conecta_nuvem.close()
+        """
