@@ -211,7 +211,8 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
                            f"COALESCE(prod.referencia, ''), "
                            f"prod.um, COALESCE(prod.ncm, '') "
                            f"FROM PRODUTO as prod "
-                           f"WHERE prod.localizacao LIKE '%{localizacao}%' "
+                           f"INNER JOIN ESTOQUE as est ON prod.id_siger = est.produto_id "
+                           f"WHERE est.localizacao LIKE '%{localizacao}%' "
                            f"AND prod.quantidade > 0 "
                            f"ORDER BY prod.descricao;")
             detalhes_produto = cursor.fetchall()
