@@ -13,7 +13,7 @@ conecta = fdb.connect(database=r"C:\HallSys\db\Horus\Suzuki\ESTOQUE.GDB",
 
 lista_problema = []
 
-cod_primeiro = "70110"
+cod_primeiro = "21241"
 cod_ultimo = "100000"
 
 cursor = conecta.cursor()

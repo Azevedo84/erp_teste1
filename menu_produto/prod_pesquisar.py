@@ -34,6 +34,8 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
         tamanho_aplicacao(self)
         layout_cabec_tab(self.table_Resultado)
 
+        self.lanca_combo_armazem()
+
         self.table_Resultado.viewport().installEventFilter(self)
 
         self.btn_Buscar.clicked.connect(self.procura_produtos)
@@ -88,6 +90,31 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
+    def lanca_combo_armazem(self):
+        conecta = conectar_banco_nuvem()
+        try:
+            self.combo_Armazem.clear()
+
+            nova_lista = ["TODOS"]
+
+            cursor = conecta.cursor()
+            cursor.execute('SELECT id, descricao FROM ESTOQUE_ARMAZEM order by descricao;')
+            lista_completa = cursor.fetchall()
+            for ides, descr in lista_completa:
+                dd = f"{ides} - {descr}"
+                nova_lista.append(dd)
+
+            self.combo_Armazem.addItems(nova_lista)
+
+        except Exception as e:
+            nome_funcao = inspect.currentframe().f_code.co_name
+            exc_traceback = sys.exc_info()[2]
+            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
     def eventFilter(self, source, event):
         try:
             if (event.type() == QtCore.QEvent.MouseButtonDblClick and
@@ -113,9 +140,20 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
 
     def procura_produtos(self):
         try:
+            armazem = self.combo_Armazem.currentText()
             localizacao = self.line_Local.text()
-            if localizacao:
-                self.localizacao_com_estoque(localizacao)
+
+            if armazem != "TODOS":
+                armazemtete = armazem.find(" - ")
+                id_armazem = armazem[:armazemtete]
+
+                if localizacao:
+                    self.localizacao_com_armazem(localizacao, id_armazem)
+                else:
+                    self.so_armazem(id_armazem)
+            elif armazem == "TODOS":
+                if localizacao:
+                    self.localizacao_com_estoque(localizacao)
             else:
                 descricao1 = self.line_Descricao1.text().upper()
                 descricao2 = self.line_Descricao2.text().upper()
@@ -221,6 +259,89 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
                     cod, descr, compl, ref, um, ncm = tudo
 
                     dados = (cod, descr, compl, ref, um, ncm)
+                    tabela.append(dados)
+
+            if tabela:
+                lanca_tabela(self.table_Resultado, tabela)
+            else:
+                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
+
+        except Exception as e:
+            nome_funcao = inspect.currentframe().f_code.co_name
+            exc_traceback = sys.exc_info()[2]
+            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
+    def localizacao_com_armazem(self, localizacao, id_armazem):
+        conecta = conectar_banco_nuvem()
+        try:
+            self.limpa_tabela()
+
+            tabela = []
+
+            print(localizacao)
+
+            cursor = conecta.cursor()
+            cursor.execute(f"SELECT prod.id_siger, prod.descricao, "
+                           f"COALESCE(prod.complementar, ''), "
+                           f"COALESCE(prod.referencia, ''), "
+                           f"prod.um, est.qtde, COALESCE(est.localizacao, ''), COALESCE(arm.descricao, ''), "
+                           f"COALESCE(prod.ncm, '') "
+                           f"FROM PRODUTO as prod "
+                           f"INNER JOIN ESTOQUE as est ON prod.id_siger = est.produto_id "
+                           f"INNER JOIN ESTOQUE_ARMAZEM as arm ON est.armazem_id = arm.id "
+                           f"WHERE est.localizacao LIKE '%{localizacao}%' "
+                           f"and est.armazem_id = {id_armazem} "
+                           f"ORDER BY prod.descricao;")
+            detalhes_produto = cursor.fetchall()
+            if detalhes_produto:
+                for tudo in detalhes_produto:
+                    cod, descr, compl, ref, um, saldo, local, armazem, ncm = tudo
+
+                    dados = (cod, descr, compl, ref, um, saldo, local, armazem, ncm)
+                    tabela.append(dados)
+
+            if tabela:
+                lanca_tabela(self.table_Resultado, tabela)
+            else:
+                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
+
+        except Exception as e:
+            nome_funcao = inspect.currentframe().f_code.co_name
+            exc_traceback = sys.exc_info()[2]
+            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+        finally:
+            if 'conexao' in locals():
+                conecta.close()
+
+    def so_armazem(self, id_armazem):
+        conecta = conectar_banco_nuvem()
+        try:
+            self.limpa_tabela()
+
+            tabela = []
+
+            cursor = conecta.cursor()
+            cursor.execute(f"SELECT prod.id_siger, prod.descricao, "
+                           f"COALESCE(prod.complementar, ''), "
+                           f"COALESCE(prod.referencia, ''), "
+                           f"prod.um, est.qtde, COALESCE(est.localizacao, ''), COALESCE(arm.descricao, ''), "
+                           f"COALESCE(prod.ncm, '') "
+                           f"FROM PRODUTO as prod "
+                           f"INNER JOIN ESTOQUE as est ON prod.id_siger = est.produto_id "
+                           f"INNER JOIN ESTOQUE_ARMAZEM as arm ON est.armazem_id = arm.id "
+                           f"WHERE est.armazem_id = {id_armazem} "
+                           f"ORDER BY prod.descricao;")
+            detalhes_produto = cursor.fetchall()
+            if detalhes_produto:
+                for tudo in detalhes_produto:
+                    cod, descr, compl, ref, um, saldo, local, armazem, ncm = tudo
+
+                    dados = (cod, descr, compl, ref, um, saldo, local, armazem, ncm)
                     tabela.append(dados)
 
             if tabela:

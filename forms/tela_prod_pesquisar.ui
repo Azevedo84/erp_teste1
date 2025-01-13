@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>702</width>
-    <height>436</height>
+    <width>614</width>
+    <height>392</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -145,13 +145,13 @@
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>170</height>
+              <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>170</height>
+              <height>148</height>
              </size>
             </property>
             <property name="styleSheet">
@@ -159,13 +159,13 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_4">
              <property name="leftMargin">
-              <number>5</number>
+              <number>6</number>
              </property>
              <property name="topMargin">
-              <number>10</number>
+              <number>6</number>
              </property>
              <property name="rightMargin">
-              <number>5</number>
+              <number>6</number>
              </property>
              <property name="bottomMargin">
               <number>6</number>
@@ -175,13 +175,13 @@
                <property name="minimumSize">
                 <size>
                  <width>0</width>
-                 <height>18</height>
+                 <height>0</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>18</height>
+                 <height>15</height>
                 </size>
                </property>
                <property name="font">
@@ -204,13 +204,13 @@
                <property name="minimumSize">
                 <size>
                  <width>0</width>
-                 <height>30</height>
+                 <height>0</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>30</height>
+                 <height>25</height>
                 </size>
                </property>
                <property name="styleSheet">
@@ -218,19 +218,19 @@
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_33">
                 <property name="spacing">
-                 <number>5</number>
+                 <number>6</number>
                 </property>
                 <property name="leftMargin">
-                 <number>5</number>
+                 <number>0</number>
                 </property>
                 <property name="topMargin">
-                 <number>3</number>
+                 <number>0</number>
                 </property>
                 <property name="rightMargin">
-                 <number>5</number>
+                 <number>0</number>
                 </property>
                 <property name="bottomMargin">
-                 <number>3</number>
+                 <number>0</number>
                 </property>
                 <item>
                  <widget class="QLabel" name="label_64">
@@ -302,13 +302,13 @@
                <property name="minimumSize">
                 <size>
                  <width>0</width>
-                 <height>30</height>
+                 <height>0</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>30</height>
+                 <height>25</height>
                 </size>
                </property>
                <property name="styleSheet">
@@ -316,19 +316,19 @@
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_34">
                 <property name="spacing">
-                 <number>5</number>
+                 <number>6</number>
                 </property>
                 <property name="leftMargin">
-                 <number>5</number>
+                 <number>0</number>
                 </property>
                 <property name="topMargin">
-                 <number>3</number>
+                 <number>0</number>
                 </property>
                 <property name="rightMargin">
-                 <number>5</number>
+                 <number>0</number>
                 </property>
                 <property name="bottomMargin">
-                 <number>3</number>
+                 <number>0</number>
                 </property>
                 <item>
                  <widget class="QLabel" name="label_65">
@@ -400,13 +400,13 @@
                <property name="minimumSize">
                 <size>
                  <width>0</width>
-                 <height>30</height>
+                 <height>0</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>30</height>
+                 <height>25</height>
                 </size>
                </property>
                <property name="styleSheet">
@@ -414,19 +414,19 @@
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_36">
                 <property name="spacing">
-                 <number>5</number>
+                 <number>6</number>
                 </property>
                 <property name="leftMargin">
-                 <number>5</number>
+                 <number>0</number>
                 </property>
                 <property name="topMargin">
-                 <number>3</number>
+                 <number>0</number>
                 </property>
                 <property name="rightMargin">
-                 <number>5</number>
+                 <number>0</number>
                 </property>
                 <property name="bottomMargin">
-                 <number>3</number>
+                 <number>0</number>
                 </property>
                 <item>
                  <widget class="QLabel" name="label_66">
@@ -495,18 +495,24 @@
              </item>
              <item>
               <widget class="QWidget" name="widget_9" native="true">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>25</height>
+                </size>
+               </property>
                <layout class="QHBoxLayout" name="horizontalLayout_5">
                 <property name="leftMargin">
-                 <number>5</number>
+                 <number>0</number>
                 </property>
                 <property name="topMargin">
-                 <number>3</number>
+                 <number>0</number>
                 </property>
                 <property name="rightMargin">
-                 <number>5</number>
+                 <number>0</number>
                 </property>
                 <property name="bottomMargin">
-                 <number>3</number>
+                 <number>0</number>
                 </property>
                 <item>
                  <widget class="QCheckBox" name="check_Mov_Busca">
@@ -565,13 +571,13 @@
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>65</height>
+              <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>65</height>
+              <height>100</height>
              </size>
             </property>
             <property name="styleSheet">
@@ -579,13 +585,13 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_7">
              <property name="leftMargin">
-              <number>5</number>
+              <number>6</number>
              </property>
              <property name="topMargin">
               <number>6</number>
              </property>
              <property name="rightMargin">
-              <number>5</number>
+              <number>6</number>
              </property>
              <property name="bottomMargin">
               <number>6</number>
@@ -595,13 +601,13 @@
                <property name="minimumSize">
                 <size>
                  <width>0</width>
-                 <height>18</height>
+                 <height>0</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>18</height>
+                 <height>15</height>
                 </size>
                </property>
                <property name="font">
@@ -620,17 +626,113 @@
               </widget>
              </item>
              <item>
-              <widget class="QWidget" name="widget_43" native="true">
+              <widget class="QWidget" name="widget_34" native="true">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
-                 <height>30</height>
+                 <height>0</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>30</height>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_27">
+                <property name="spacing">
+                 <number>6</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label_72">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>80</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>8</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Armazém:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="combo_Armazem">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>8</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);
+text-align: center;</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget_43" native="true">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>25</height>
                 </size>
                </property>
                <property name="styleSheet">
@@ -638,19 +740,19 @@
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_35">
                 <property name="spacing">
-                 <number>5</number>
+                 <number>0</number>
                 </property>
                 <property name="leftMargin">
-                 <number>5</number>
+                 <number>0</number>
                 </property>
                 <property name="topMargin">
-                 <number>3</number>
+                 <number>0</number>
                 </property>
                 <property name="rightMargin">
-                 <number>5</number>
+                 <number>0</number>
                 </property>
                 <property name="bottomMargin">
-                 <number>3</number>
+                 <number>0</number>
                 </property>
                 <item>
                  <widget class="QLineEdit" name="line_Local">
@@ -696,13 +798,13 @@
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>40</height>
+              <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>40</height>
+              <height>35</height>
              </size>
             </property>
             <property name="styleSheet">
@@ -710,16 +812,16 @@
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <property name="leftMargin">
-              <number>15</number>
+              <number>6</number>
              </property>
              <property name="topMargin">
-              <number>5</number>
+              <number>6</number>
              </property>
              <property name="rightMargin">
-              <number>15</number>
+              <number>6</number>
              </property>
              <property name="bottomMargin">
-              <number>5</number>
+              <number>6</number>
              </property>
              <item>
               <widget class="QLabel" name="label">
@@ -859,6 +961,11 @@
             <column>
              <property name="text">
               <string>LOCAL</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>ARMAZEM</string>
              </property>
             </column>
             <column>

@@ -11,8 +11,6 @@ conecta = fdb.connect(database=r"C:\HallSys\db\Horus\Suzuki\ESTOQUE.GDB",
                       password='masterkey',
                       charset='ANSI')
 
-cod_primeiro = "70110"
-cod_ultimo = "100000"
 
 cursor = conecta.cursor()
 cursor.execute(f"SELECT produto_id, local_estoque, saldo "
@@ -35,6 +33,8 @@ if select_estoque:
                 codigo, descr, local = ii
 
                 if saldo:
+                    armazem_id = None
+
                     if not local:
                         dados = (codigo, descr, saldo, local)
                         lista_sem_local.append(dados)
@@ -51,8 +51,7 @@ if select_estoque:
                             # print("Depósuito almox", local)
 
                         elif local == "A":
-                            pass
-                            # print("SÓ A", local)
+                            armazem_id = 5
 
                         else:
                             if local == "z":
@@ -123,8 +122,8 @@ if select_estoque:
                             else:
                                 armazem_id = 5
 
-                            dadosss = (codigo, local_est, saldo, armazem_id, local)
-                            lista_gravar.append(dadosss)
+                        dadosss = (codigo, local_est, saldo, armazem_id, local)
+                        lista_gravar.append(dadosss)
 
 if lista_sem_local:
     desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
@@ -159,20 +158,37 @@ if lista_gravar:
             lista_completa = cursor.fetchall()
 
             if not lista_completa:
-                query = """
-                        INSERT INTO ESTOQUE (PRODUTO_ID, LOCAL_ESTOQUE_ID, QTDE, ARMAZEM_ID, LOCALIZACAO) 
-                        VALUES (%s, %s, %s, %s, %s);
-                        """
+                print(iii)
+                if saldo > 0:
+                    query = """
+                            INSERT INTO ESTOQUE (PRODUTO_ID, LOCAL_ESTOQUE_ID, QTDE, ARMAZEM_ID, LOCALIZACAO) 
+                            VALUES (%s, %s, %s, %s, %s);
+                            """
 
-                values = (codigo, local_est, saldo, armazem_id, local )
+                    values = (codigo, local_est, saldo, armazem_id, local )
 
-                cursor = conecta_nuvem.cursor()
-                cursor.execute(query, values)
+                    cursor = conecta_nuvem.cursor()
+                    cursor.execute(query, values)
 
-                conecta_nuvem.commit()
+                    conecta_nuvem.commit()
 
-                print(f"Produto salvo com sucesso! {iii}")
-                print("\n")
+                    print(f"Produto salvo com sucesso! {iii}")
+                    print("\n")
+                else:
+                    query = """
+                            INSERT INTO ESTOQUE (PRODUTO_ID, LOCAL_ESTOQUE_ID, QTDE) 
+                            VALUES (%s, %s, %s);
+                            """
+
+                    values = (codigo, local_est, saldo)
+
+                    cursor = conecta_nuvem.cursor()
+                    cursor.execute(query, values)
+
+                    conecta_nuvem.commit()
+
+                    print(f"Produto salvo com sucesso! {iii}")
+                    print("\n")
 
         finally:
             if 'conexao' in locals():

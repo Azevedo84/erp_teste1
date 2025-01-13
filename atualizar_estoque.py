@@ -14,12 +14,13 @@ try:
             prod_id, local_est_id, local = i
 
             locali = None
+            armazem = None
 
             cursor = conecta_nuvem.cursor()
             cursor.execute(
-                "UPDATE ESTOQUE SET LOCALIZACAO = %s "
+                "UPDATE ESTOQUE SET LOCALIZACAO = %s, ARMAZEM_ID = %s "
                 "WHERE PRODUTO_ID = %s AND LOCAL_ESTOQUE_ID = %s;",
-                (locali, prod_id, local_est_id)
+                (locali, armazem, prod_id, local_est_id)
             )
 
             conecta_nuvem.commit()
