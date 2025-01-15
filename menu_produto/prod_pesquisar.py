@@ -39,6 +39,8 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
         self.table_Resultado.viewport().installEventFilter(self)
 
         self.btn_Buscar.clicked.connect(self.procura_produtos)
+
+        self.btn_Limpar.clicked.connect(self.limpa_tudo)
         self.btn_Excel.clicked.connect(self.gerar_excel)
 
         self.processando = False
@@ -84,6 +86,35 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
             nome_tabela = self.table_Resultado
 
             nome_tabela.setRowCount(0)
+
+        except Exception as e:
+            nome_funcao = inspect.currentframe().f_code.co_name
+            exc_traceback = sys.exc_info()[2]
+            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+    def limpa_descricoes(self):
+        try:
+            self.limpa_tabela()
+
+            self.line_Descricao1.clear()
+            self.line_Descricao2.clear()
+            self.line_Descricao3.clear()
+
+            self.check_Estoque_Busca.setChecked(False)
+            self.check_Mov_Busca.setChecked(False)
+
+        except Exception as e:
+            nome_funcao = inspect.currentframe().f_code.co_name
+            exc_traceback = sys.exc_info()[2]
+            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
+
+    def limpa_tudo(self):
+        try:
+            self.limpa_descricoes()
+
+            self.line_Local.clear()
+
+            self.lanca_combo_armazem()
 
         except Exception as e:
             nome_funcao = inspect.currentframe().f_code.co_name
@@ -148,95 +179,278 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
                 id_armazem = armazem[:armazemtete]
 
                 if localizacao:
-                    self.localizacao_com_armazem(localizacao, id_armazem)
+                    where = (f"WHERE prod.localizacao LIKE '%{localizacao}%' "
+                             f"and prod.armazem_id = {id_armazem} ")
+                    self.limpa_descricoes()
+                    self.padraozinho(where)
                 else:
-                    self.so_armazem(id_armazem)
+                    where = f"WHERE prod.armazem_id = {id_armazem} "
+                    self.limpa_descricoes()
+                    self.padraozinho(where)
             elif armazem == "TODOS":
                 if localizacao:
-                    self.localizacao_com_estoque(localizacao)
-            else:
-                descricao1 = self.line_Descricao1.text().upper()
-                descricao2 = self.line_Descricao2.text().upper()
-                descricao3 = self.line_Descricao3.text().upper()
-
-                estoque = self.check_Estoque_Busca.isChecked()
-                movimentacao = self.check_Mov_Busca.isChecked()
-
-                if estoque and movimentacao:
-                    if descricao1 and descricao2 and descricao3:
-                        self.estoque_movimentacao_pal1_pal2_pal3(descricao1, descricao2, descricao3)
-                    elif descricao1 and descricao2:
-                        self.estoque_movimentacao_pal1_pal2(descricao1, descricao2)
-                    elif descricao1 and descricao3:
-                        self.estoque_movimentacao_pal1_pal3(descricao1, descricao3)
-                    elif descricao2 and descricao3:
-                        self.estoque_movimentacao_pal2_pal3(descricao2, descricao3)
-                    elif descricao1:
-                        self.estoque_movimentacao_pal1(descricao1)
-                    elif descricao2:
-                        self.estoque_movimentacao_pal2(descricao2)
-                    elif descricao3:
-                        self.estoque_movimentacao_pal3(descricao3)
-                    else:
-                        self.estoque_movimentacao()
-                elif estoque:
-                    if descricao1 and descricao2 and descricao3:
-                        self.estoque_pal1_pal2_pal3(descricao1, descricao2, descricao3)
-                    elif descricao1 and descricao2:
-                        self.estoque_pal1_pal2(descricao1, descricao2)
-                    elif descricao1 and descricao3:
-                        self.estoque_pal1_pal3(descricao1, descricao3)
-                    elif descricao2 and descricao3:
-                        self.estoque_pal2_pal3(descricao2, descricao3)
-                    elif descricao1:
-                        self.estoque_pal1(descricao1)
-                    elif descricao2:
-                        self.estoque_pal2(descricao2)
-                    elif descricao3:
-                        self.estoque_pal3(descricao3)
-                    else:
-                        self.estoque()
-                elif movimentacao:
-                    if descricao1 and descricao2 and descricao3:
-                        self.movimentacao_pal1_pal2_pal3(descricao1, descricao2, descricao3)
-                    elif descricao1 and descricao2:
-                        self.movimentacao_pal1_pal2(descricao1, descricao2)
-                    elif descricao1 and descricao3:
-                        self.movimentacao_pal1_pal3(descricao1, descricao3)
-                    elif descricao2 and descricao3:
-                        self.movimentacao_pal2_pal3(descricao2, descricao3)
-                    elif descricao1:
-                        self.movimentacao_pal1(descricao1)
-                    elif descricao2:
-                        self.movimentacao_pal2(descricao2)
-                    elif descricao3:
-                        self.movimentacao_pal3(descricao3)
-                    else:
-                        self.movimentacao()
+                    where = f"WHERE prod.localizacao LIKE '%{localizacao}%' "
+                    self.limpa_descricoes()
+                    self.padraozinho(where)
                 else:
-                    if descricao1 and descricao2 and descricao3:
-                        self.pal1_pal2_pal3(descricao1, descricao2, descricao3)
-                    elif descricao1 and descricao2:
-                        self.pal1_pal2(descricao1, descricao2)
-                    elif descricao1 and descricao3:
-                        self.pal1_pal3(descricao1, descricao3)
-                    elif descricao2 and descricao3:
-                        self.pal2_pal3(descricao2, descricao3)
-                    elif descricao1:
-                        self.pal1(descricao1)
-                    elif descricao2:
-                        self.pal2(descricao2)
-                    elif descricao3:
-                        self.pal3(descricao3)
+                    descricao1 = self.line_Descricao1.text().upper()
+                    descricao2 = self.line_Descricao2.text().upper()
+                    descricao3 = self.line_Descricao3.text().upper()
+
+                    estoque = self.check_Estoque_Busca.isChecked()
+                    movimentacao = self.check_Mov_Busca.isChecked()
+
+                    if estoque and movimentacao:
+                        if descricao1 and descricao2 and descricao3:
+                            where = (f"INNER JOIN MOVIMENTACAO as mov ON prod.id_siger = mov.produto_id "
+                                     f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao1}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao1}%') "
+                                     f"AND (prod.descricao LIKE '%{descricao2}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao2}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao2}%') "
+                                     f"AND (prod.descricao LIKE '%{descricao3}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao3}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao3}%') "
+                                     f"AND prod.SALDO_TOTAL > 0 ")
+                            self.padraozinho(where)
+                        elif descricao1 and descricao2:
+                            where = (f"INNER JOIN MOVIMENTACAO as mov ON prod.id_siger = mov.produto_id "
+                                     f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao1}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao1}%') "
+                                     f"AND (prod.descricao LIKE '%{descricao2}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao2}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao2}%') "
+                                     f"AND prod.SALDO_TOTAL > 0 ")
+                            self.padraozinho(where)
+                        elif descricao1 and descricao3:
+                            where = (f"INNER JOIN MOVIMENTACAO as mov ON prod.id_siger = mov.produto_id "
+                                     f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao1}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao1}%') "
+                                     f"AND (prod.descricao LIKE '%{descricao3}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao3}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao3}%') "
+                                     f"AND prod.SALDO_TOTAL > 0 ")
+                            self.padraozinho(where)
+                        elif descricao2 and descricao3:
+                            where = (f"INNER JOIN MOVIMENTACAO as mov ON prod.id_siger = mov.produto_id "
+                                     f"WHERE (prod.descricao LIKE '%{descricao2}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao2}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao2}%') "
+                                     f"AND (prod.descricao LIKE '%{descricao3}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao3}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao3}%') "
+                                     f"AND prod.SALDO_TOTAL > 0 ")
+                            self.padraozinho(where)
+                        elif descricao1:
+                            where = (f"INNER JOIN MOVIMENTACAO as mov ON prod.id_siger = mov.produto_id "
+                                     f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao1}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao1}%') "
+                                     f"AND prod.SALDO_TOTAL > 0 ")
+                            self.padraozinho(where)
+                        elif descricao2:
+                            where = (f"INNER JOIN MOVIMENTACAO as mov ON prod.id_siger = mov.produto_id "
+                                     f"WHERE (prod.descricao LIKE '%{descricao2}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao2}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao2}%') "
+                                     f"AND prod.SALDO_TOTAL > 0 ")
+                            self.padraozinho(where)
+                        elif descricao3:
+                            where = (f"INNER JOIN MOVIMENTACAO as mov ON prod.id_siger = mov.produto_id "
+                                     f"WHERE (prod.descricao LIKE '%{descricao3}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao3}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao3}%') "
+                                     f"AND prod.SALDO_TOTAL > 0 ")
+                            self.padraozinho(where)
+                        else:
+                            where = (f"INNER JOIN MOVIMENTACAO as mov ON prod.id_siger = mov.produto_id "
+                                     f"WHERE prod.SALDO_TOTAL > 0 ")
+                            self.padraozinho(where)
+                    elif estoque:
+                        if descricao1 and descricao2 and descricao3:
+                            where = (f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao1}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao1}%') "
+                                     f"AND (prod.descricao LIKE '%{descricao2}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao2}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao2}%') "
+                                     f"AND (prod.descricao LIKE '%{descricao3}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao3}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao3}%') "
+                                     f"AND prod.SALDO_TOTAL > 0 ")
+                            self.padraozinho(where)
+                        elif descricao1 and descricao2:
+                            where = (f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao1}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao1}%') "
+                                     f"AND (prod.descricao LIKE '%{descricao2}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao2}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao2}%') "
+                                     f"AND prod.SALDO_TOTAL > 0 ")
+                            self.padraozinho(where)
+                        elif descricao1 and descricao3:
+                            where = (f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao1}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao1}%') "
+                                     f"AND (prod.descricao LIKE '%{descricao3}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao3}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao3}%') "
+                                     f"AND prod.SALDO_TOTAL > 0 ")
+                            self.padraozinho(where)
+                        elif descricao2 and descricao3:
+                            where = (f"WHERE (prod.descricao LIKE '%{descricao2}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao2}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao2}%') "
+                                     f"AND (prod.descricao LIKE '%{descricao3}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao3}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao3}%') "
+                                     f"AND prod.SALDO_TOTAL > 0 ")
+                            self.padraozinho(where)
+                        elif descricao1:
+                            where = (f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao1}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao1}%') "
+                                     f"AND prod.SALDO_TOTAL > 0 ")
+                            self.padraozinho(where)
+                        elif descricao2:
+                            where = (f"WHERE (prod.descricao LIKE '%{descricao2}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao2}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao2}%') "
+                                     f"AND prod.SALDO_TOTAL > 0 ")
+                            self.padraozinho(where)
+                        elif descricao3:
+                            where = (f"WHERE (prod.descricao LIKE '%{descricao3}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao3}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao3}%') "
+                                     f"AND prod.SALDO_TOTAL > 0 ")
+                            self.padraozinho(where)
+                        else:
+                            where = f"WHERE prod.SALDO_TOTAL > 0 "
+                            self.padraozinho(where)
+                    elif movimentacao:
+                        if descricao1 and descricao2 and descricao3:
+                            where = (f"INNER JOIN MOVIMENTACAO as mov ON prod.id_siger = mov.produto_id "
+                                     f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao1}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao1}%') "
+                                     f"AND (prod.descricao LIKE '%{descricao2}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao2}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao2}%') "
+                                     f"AND (prod.descricao LIKE '%{descricao3}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao3}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao3}%') ")
+                            self.padraozinho(where)
+                        elif descricao1 and descricao2:
+                            where = (f"INNER JOIN MOVIMENTACAO as mov ON prod.id_siger = mov.produto_id "
+                                     f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao1}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao1}%') "
+                                     f"AND (prod.descricao LIKE '%{descricao2}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao2}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao2}%') ")
+                            self.padraozinho(where)
+                        elif descricao1 and descricao3:
+                            where = (f"INNER JOIN MOVIMENTACAO as mov ON prod.id_siger = mov.produto_id "
+                                     f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao1}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao1}%') "
+                                     f"AND (prod.descricao LIKE '%{descricao3}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao3}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao3}%') ")
+                            self.padraozinho(where)
+                        elif descricao2 and descricao3:
+                            where = (f"INNER JOIN MOVIMENTACAO as mov ON prod.id_siger = mov.produto_id "
+                                     f"WHERE (prod.descricao LIKE '%{descricao2}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao2}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao2}%') "
+                                     f"AND (prod.descricao LIKE '%{descricao3}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao3}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao3}%') ")
+                            self.padraozinho(where)
+                        elif descricao1:
+                            where = (f"INNER JOIN MOVIMENTACAO as mov ON prod.id_siger = mov.produto_id "
+                                     f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao1}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao1}%') ")
+                            self.padraozinho(where)
+                        elif descricao2:
+                            where = (f"INNER JOIN MOVIMENTACAO as mov ON prod.id_siger = mov.produto_id "
+                                     f"WHERE (prod.descricao LIKE '%{descricao2}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao2}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao2}%') ")
+                            self.padraozinho(where)
+                        elif descricao3:
+                            where = (f"INNER JOIN MOVIMENTACAO as mov ON prod.id_siger = mov.produto_id "
+                                     f"WHERE (prod.descricao LIKE '%{descricao3}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao3}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao3}%') ")
+                            self.padraozinho(where)
+                        else:
+                            where = f"INNER JOIN MOVIMENTACAO as mov ON prod.id_siger = mov.produto_id "
+                            self.padraozinho(where)
                     else:
-                        self.mensagem_alerta("Defina algum parâmetro para seguir com a consulta!")
+                        if descricao1 and descricao2 and descricao3:
+                            where = (f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao1}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao1}%') "
+                                     f"AND (prod.descricao LIKE '%{descricao2}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao2}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao2}%') "
+                                     f"AND (prod.descricao LIKE '%{descricao3}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao3}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao3}%') ")
+                            self.padraozinho(where)
+                        elif descricao1 and descricao2:
+                            where = (f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao1}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao1}%') "
+                                     f"AND (prod.descricao LIKE '%{descricao2}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao2}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao2}%') ")
+                            self.padraozinho(where)
+                        elif descricao1 and descricao3:
+                            where = (f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao1}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao1}%') "
+                                     f"AND (prod.descricao LIKE '%{descricao3}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao3}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao3}%') ")
+                            self.padraozinho(where)
+                        elif descricao2 and descricao3:
+                            where = (f"WHERE (prod.descricao LIKE '%{descricao2}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao2}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao2}%') "
+                                     f"AND (prod.descricao LIKE '%{descricao3}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao3}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao3}%') ")
+                            self.padraozinho(where)
+                        elif descricao1:
+                            where = (f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao1}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao1}%') ")
+                            self.padraozinho(where)
+                        elif descricao2:
+                            where = (f"WHERE (prod.descricao LIKE '%{descricao2}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao2}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao2}%') ")
+                            self.padraozinho(where)
+                        elif descricao3:
+                            where = (f"WHERE (prod.descricao LIKE '%{descricao3}%' OR "
+                                     f"prod.COMPLEMENTAR LIKE '%{descricao3}%' OR "
+                                     f"prod.REFERENCIA LIKE '%{descricao3}%') ")
+                            self.padraozinho(where)
+                        else:
+                            self.mensagem_alerta("Defina algum parâmetro para seguir com a consulta!")
 
         except Exception as e:
             nome_funcao = inspect.currentframe().f_code.co_name
             exc_traceback = sys.exc_info()[2]
             self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
 
-    def localizacao_com_estoque(self, localizacao):
+    def padraozinho(self, where):
         conecta = conectar_banco_nuvem()
         try:
             self.limpa_tabela()
@@ -245,1539 +459,22 @@ class TelaProdutoPesquisar(QMainWindow, Ui_MainWindow):
 
             cursor = conecta.cursor()
             cursor.execute(f"SELECT prod.id_siger, prod.descricao, "
-                           f"COALESCE(prod.complementar, ''), "
-                           f"COALESCE(prod.referencia, ''), "
-                           f"prod.um, COALESCE(prod.ncm, '') "
+                           f"COALESCE(prod.complementar, ''), COALESCE(prod.referencia, ''), "
+                           f"prod.um, prod.saldo_total, COALESCE(prod.localizacao, ''), COALESCE(arm.descricao, '') "
                            f"FROM PRODUTO as prod "
-                           f"INNER JOIN ESTOQUE as est ON prod.id_siger = est.produto_id "
-                           f"WHERE est.localizacao LIKE '%{localizacao}%' "
-                           f"AND prod.quantidade > 0 "
+                           f"LEFT JOIN ESTOQUE_ARMAZEM as arm ON prod.armazem_id = arm.id "
+                           f"{where} "
                            f"ORDER BY prod.descricao;")
             detalhes_produto = cursor.fetchall()
             if detalhes_produto:
                 for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, ncm = tudo
-
-                    dados = (cod, descr, compl, ref, um, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def localizacao_com_armazem(self, localizacao, id_armazem):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            print(localizacao)
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT prod.id_siger, prod.descricao, "
-                           f"COALESCE(prod.complementar, ''), "
-                           f"COALESCE(prod.referencia, ''), "
-                           f"prod.um, est.qtde, COALESCE(est.localizacao, ''), COALESCE(arm.descricao, ''), "
-                           f"COALESCE(prod.ncm, '') "
-                           f"FROM PRODUTO as prod "
-                           f"INNER JOIN ESTOQUE as est ON prod.id_siger = est.produto_id "
-                           f"INNER JOIN ESTOQUE_ARMAZEM as arm ON est.armazem_id = arm.id "
-                           f"WHERE est.localizacao LIKE '%{localizacao}%' "
-                           f"and est.armazem_id = {id_armazem} "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, armazem, ncm = tudo
-
-                    dados = (cod, descr, compl, ref, um, saldo, local, armazem, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def so_armazem(self, id_armazem):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT prod.id_siger, prod.descricao, "
-                           f"COALESCE(prod.complementar, ''), "
-                           f"COALESCE(prod.referencia, ''), "
-                           f"prod.um, est.qtde, COALESCE(est.localizacao, ''), COALESCE(arm.descricao, ''), "
-                           f"COALESCE(prod.ncm, '') "
-                           f"FROM PRODUTO as prod "
-                           f"INNER JOIN ESTOQUE as est ON prod.id_siger = est.produto_id "
-                           f"INNER JOIN ESTOQUE_ARMAZEM as arm ON est.armazem_id = arm.id "
-                           f"WHERE est.armazem_id = {id_armazem} "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, armazem, ncm = tudo
-
-                    dados = (cod, descr, compl, ref, um, saldo, local, armazem, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def estoque(self):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT codigo, descricao, COALESCE(descricaocomplementar, ''), COALESCE(obs, ''), "
-                           f"unidade, COALESCE(quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto "
-                           f"WHERE quantidade > 0 "
-                           f"order by descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
+                    cod, descr, compl, ref, um, saldo, local, armazem = tudo
 
                     saldo = valores_para_float(saldo)
                     saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
                     saldinho = valores_para_virgula(saldo_formatado)
 
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def movimentacao(self):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT DISTINCT prod.codigo, prod.descricao, COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"INNER JOIN movimentacao as mov ON prod.id = mov.produto "
-                           f"order by prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def estoque_movimentacao(self):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT DISTINCT prod.codigo, prod.descricao, COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"INNER JOIN movimentacao as mov ON prod.id = mov.produto "
-                           f"WHERE prod.quantidade > 0 "
-                           f"order by prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def estoque_movimentacao_pal1_pal2_pal3(self, descricao1, descricao2, descricao3):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT DISTINCT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"INNER JOIN movimentacao as mov ON prod.id = mov.produto "
-                           f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao1}%' OR "
-                           f"prod.obs LIKE '%{descricao1}%') "
-                           f"AND (prod.descricao LIKE '%{descricao2}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao2}%' OR "
-                           f"prod.obs LIKE '%{descricao2}%') "
-                           f"AND (prod.descricao LIKE '%{descricao3}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao3}%' OR "
-                           f"prod.obs LIKE '%{descricao3}%') "
-                           f"AND prod.quantidade > 0 "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def estoque_movimentacao_pal1_pal2(self, descricao1, descricao2):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT DISTINCT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"INNER JOIN movimentacao as mov ON prod.id = mov.produto "
-                           f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao1}%' OR "
-                           f"prod.obs LIKE '%{descricao1}%') "
-                           f"AND (prod.descricao LIKE '%{descricao2}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao2}%' OR "
-                           f"prod.obs LIKE '%{descricao2}%') "
-                           f"AND prod.quantidade > 0 "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def estoque_movimentacao_pal1_pal3(self, descricao1, descricao3):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT DISTINCT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"INNER JOIN movimentacao as mov ON prod.id = mov.produto "
-                           f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao1}%' OR "
-                           f"prod.obs LIKE '%{descricao1}%') "
-                           f"AND (prod.descricao LIKE '%{descricao3}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao3}%' OR "
-                           f"prod.obs LIKE '%{descricao3}%') "
-                           f"AND prod.quantidade > 0 "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def estoque_movimentacao_pal2_pal3(self, descricao2, descricao3):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT DISTINCT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"INNER JOIN movimentacao as mov ON prod.id = mov.produto "
-                           f"WHERE (prod.descricao LIKE '%{descricao2}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao2}%' OR "
-                           f"prod.obs LIKE '%{descricao2}%') "
-                           f"AND (prod.descricao LIKE '%{descricao3}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao3}%' OR "
-                           f"prod.obs LIKE '%{descricao3}%') "
-                           f"AND prod.quantidade > 0 "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def estoque_movimentacao_pal1(self, descricao1):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT DISTINCT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"INNER JOIN movimentacao as mov ON prod.id = mov.produto "
-                           f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao1}%' OR "
-                           f"prod.obs LIKE '%{descricao1}%') "
-                           f"AND prod.quantidade > 0 "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def estoque_movimentacao_pal2(self, descricao2):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT DISTINCT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"INNER JOIN movimentacao as mov ON prod.id = mov.produto "
-                           f"WHERE (prod.descricao LIKE '%{descricao2}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao2}%' OR "
-                           f"prod.obs LIKE '%{descricao2}%') "
-                           f"AND prod.quantidade > 0 "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def estoque_movimentacao_pal3(self, descricao3):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT DISTINCT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"INNER JOIN movimentacao as mov ON prod.id = mov.produto "
-                           f"WHERE (prod.descricao LIKE '%{descricao3}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao3}%' OR "
-                           f"prod.obs LIKE '%{descricao3}%') "
-                           f"AND prod.quantidade > 0 "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def estoque_pal1_pal2_pal3(self, descricao1, descricao2, descricao3):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao1}%' OR "
-                           f"prod.obs LIKE '%{descricao1}%') "
-                           f"AND (prod.descricao LIKE '%{descricao2}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao2}%' OR "
-                           f"prod.obs LIKE '%{descricao2}%') "
-                           f"AND (prod.descricao LIKE '%{descricao3}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao3}%' OR "
-                           f"prod.obs LIKE '%{descricao3}%') "
-                           f"AND prod.quantidade > 0 "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def estoque_pal1_pal2(self, descricao1, descricao2):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao1}%' OR "
-                           f"prod.obs LIKE '%{descricao1}%') "
-                           f"AND (prod.descricao LIKE '%{descricao2}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao2}%' OR "
-                           f"prod.obs LIKE '%{descricao2}%') "
-                           f"AND prod.quantidade > 0 "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def estoque_pal1_pal3(self, descricao1, descricao3):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao1}%' OR "
-                           f"prod.obs LIKE '%{descricao1}%') "
-                           f"AND (prod.descricao LIKE '%{descricao3}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao3}%' OR "
-                           f"prod.obs LIKE '%{descricao3}%') "
-                           f"AND prod.quantidade > 0 "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def estoque_pal2_pal3(self, descricao2, descricao3):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"WHERE (prod.descricao LIKE '%{descricao2}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao2}%' OR "
-                           f"prod.obs LIKE '%{descricao2}%') "
-                           f"AND (prod.descricao LIKE '%{descricao3}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao3}%' OR "
-                           f"prod.obs LIKE '%{descricao3}%') "
-                           f"AND prod.quantidade > 0 "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def estoque_pal1(self, descricao1):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao1}%' OR "
-                           f"prod.obs LIKE '%{descricao1}%') "
-                           f"AND prod.quantidade > 0 "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def estoque_pal2(self, descricao2):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"WHERE (prod.descricao LIKE '%{descricao2}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao2}%' OR "
-                           f"prod.obs LIKE '%{descricao2}%') "
-                           f"AND prod.quantidade > 0 "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def estoque_pal3(self, descricao3):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"WHERE (prod.descricao LIKE '%{descricao3}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao3}%' OR "
-                           f"prod.obs LIKE '%{descricao3}%') "
-                           f"AND prod.quantidade > 0 "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def movimentacao_pal1_pal2_pal3(self, descricao1, descricao2, descricao3):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT DISTINCT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"INNER JOIN movimentacao as mov ON prod.id = mov.produto "
-                           f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao1}%' OR "
-                           f"prod.obs LIKE '%{descricao1}%') "
-                           f"AND (prod.descricao LIKE '%{descricao2}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao2}%' OR "
-                           f"prod.obs LIKE '%{descricao2}%') "
-                           f"AND (prod.descricao LIKE '%{descricao3}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao3}%' OR "
-                           f"prod.obs LIKE '%{descricao3}%') "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def movimentacao_pal1_pal2(self, descricao1, descricao2):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT DISTINCT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"INNER JOIN movimentacao as mov ON prod.id = mov.produto "
-                           f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao1}%' OR "
-                           f"prod.obs LIKE '%{descricao1}%') "
-                           f"AND (prod.descricao LIKE '%{descricao2}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao2}%' OR "
-                           f"prod.obs LIKE '%{descricao2}%') "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def movimentacao_pal1_pal3(self, descricao1, descricao3):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT DISTINCT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"INNER JOIN movimentacao as mov ON prod.id = mov.produto "
-                           f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao1}%' OR "
-                           f"prod.obs LIKE '%{descricao1}%') "
-                           f"AND (prod.descricao LIKE '%{descricao3}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao3}%' OR "
-                           f"prod.obs LIKE '%{descricao3}%') "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def movimentacao_pal2_pal3(self, descricao2, descricao3):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT DISTINCT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"INNER JOIN movimentacao as mov ON prod.id = mov.produto "
-                           f"WHERE (prod.descricao LIKE '%{descricao2}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao2}%' OR "
-                           f"prod.obs LIKE '%{descricao2}%') "
-                           f"AND (prod.descricao LIKE '%{descricao3}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao3}%' OR "
-                           f"prod.obs LIKE '%{descricao3}%') "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def movimentacao_pal1(self, descricao1):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT DISTINCT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"INNER JOIN movimentacao as mov ON prod.id = mov.produto "
-                           f"WHERE (prod.descricao LIKE '%{descricao1}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao1}%' OR "
-                           f"prod.obs LIKE '%{descricao1}%') "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def movimentacao_pal2(self, descricao2):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT DISTINCT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"INNER JOIN movimentacao as mov ON prod.id = mov.produto "
-                           f"WHERE (prod.descricao LIKE '%{descricao2}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao2}%' OR "
-                           f"prod.obs LIKE '%{descricao2}%') "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def movimentacao_pal3(self, descricao3):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT DISTINCT prod.codigo, prod.descricao, "
-                           f"COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"INNER JOIN movimentacao as mov ON prod.id = mov.produto "
-                           f"WHERE (prod.descricao LIKE '%{descricao3}%' OR "
-                           f"prod.descricaocomplementar LIKE '%{descricao3}%' OR "
-                           f"prod.obs LIKE '%{descricao3}%') "
-                           f"ORDER BY prod.descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def pal1_pal2_pal3(self, descricao1, descricao2, descricao3):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT prod.codigo, prod.descricao, COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"WHERE (descricao LIKE '%{descricao1}%' OR "
-                           f"descricaocomplementar LIKE '%{descricao1}%' OR "
-                           f"obs LIKE '%{descricao1}%') "
-                           f"AND (descricao LIKE '%{descricao2}%' OR "
-                           f"descricaocomplementar LIKE '%{descricao2}%' OR "
-                           f"obs LIKE '%{descricao2}%') "
-                           f"AND (descricao LIKE '%{descricao3}%' OR "
-                           f"descricaocomplementar LIKE '%{descricao3}%' OR "
-                           f"obs LIKE '%{descricao3}%') "
-                           f"order by descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def pal1_pal2(self, descricao1, descricao2):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT prod.codigo, prod.descricao, COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"WHERE (descricao LIKE '%{descricao1}%' OR "
-                           f"descricaocomplementar LIKE '%{descricao1}%' OR "
-                           f"obs LIKE '%{descricao1}%') "
-                           f"AND (descricao LIKE '%{descricao2}%' OR "
-                           f"descricaocomplementar LIKE '%{descricao2}%' OR "
-                           f"obs LIKE '%{descricao2}%') "
-                           f"order by descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def pal1_pal3(self, descricao1, descricao3):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT prod.codigo, prod.descricao, COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"WHERE (descricao LIKE '%{descricao1}%' OR "
-                           f"descricaocomplementar LIKE '%{descricao1}%' OR "
-                           f"obs LIKE '%{descricao1}%') "
-                           f"AND (descricao LIKE '%{descricao3}%' OR "
-                           f"descricaocomplementar LIKE '%{descricao3}%' OR "
-                           f"obs LIKE '%{descricao3}%') "
-                           f"order by descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def pal2_pal3(self, descricao2, descricao3):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT prod.codigo, prod.descricao, COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"WHERE (descricao LIKE '%{descricao2}%' OR "
-                           f"descricaocomplementar LIKE '%{descricao2}%' OR "
-                           f"obs LIKE '%{descricao2}%') "
-                           f"AND (descricao LIKE '%{descricao3}%' OR "
-                           f"descricaocomplementar LIKE '%{descricao3}%' OR "
-                           f"obs LIKE '%{descricao3}%') "
-                           f"order by descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def pal1(self, descricao1):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT prod.codigo, prod.descricao, COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"WHERE (descricao LIKE '%{descricao1}%' OR "
-                           f"descricaocomplementar LIKE '%{descricao1}%' OR "
-                           f"obs LIKE '%{descricao1}%') "
-                           f"order by descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def pal2(self, descricao2):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT prod.codigo, prod.descricao, COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"WHERE (descricao LIKE '%{descricao2}%' OR "
-                           f"descricaocomplementar LIKE '%{descricao2}%' OR "
-                           f"obs LIKE '%{descricao2}%') "
-                           f"order by descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
-                    tabela.append(dados)
-
-            if tabela:
-                lanca_tabela(self.table_Resultado, tabela)
-            else:
-                self.mensagem_alerta("Não foi encontrado nenhum registro com essas condições!")
-
-        except Exception as e:
-            nome_funcao = inspect.currentframe().f_code.co_name
-            exc_traceback = sys.exc_info()[2]
-            self.trata_excecao(nome_funcao, str(e), self.nome_arquivo, exc_traceback)
-
-        finally:
-            if 'conexao' in locals():
-                conecta.close()
-
-    def pal3(self, descricao3):
-        conecta = conectar_banco_nuvem()
-        try:
-            self.limpa_tabela()
-
-            tabela = []
-
-            cursor = conecta.cursor()
-            cursor.execute(f"SELECT prod.codigo, prod.descricao, COALESCE(prod.descricaocomplementar, ''), "
-                           f"COALESCE(prod.obs, ''), "
-                           f"prod.unidade, COALESCE(prod.quantidade, ''), "
-                           f"COALESCE(prod.localizacao, ''), COALESCE(prod.ncm, '') "
-                           f"FROM produto as prod "
-                           f"WHERE (descricao LIKE '%{descricao3}%' OR "
-                           f"descricaocomplementar LIKE '%{descricao3}%' OR "
-                           f"obs LIKE '%{descricao3}%') "
-                           f"order by descricao;")
-            detalhes_produto = cursor.fetchall()
-            if detalhes_produto:
-                for tudo in detalhes_produto:
-                    cod, descr, compl, ref, um, saldo, local, ncm = tudo
-
-                    saldo = valores_para_float(saldo)
-                    saldo_formatado = "{:.{}f}".format(saldo, len(str(saldo).split('.')[-1]))
-                    saldinho = valores_para_virgula(saldo_formatado)
-
-                    dados = (cod, descr, compl, ref, um, saldinho, local, ncm)
+                    dados = (cod, descr, ref, um, saldinho, local, armazem)
                     tabela.append(dados)
 
             if tabela:

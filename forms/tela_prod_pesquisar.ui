@@ -930,22 +930,17 @@ text-align: center;</string>
             </property>
             <column>
              <property name="text">
-              <string>CÓD</string>
+              <string>Código</string>
              </property>
             </column>
             <column>
              <property name="text">
-              <string>DESCRIÇÃO</string>
+              <string>Descrição</string>
              </property>
             </column>
             <column>
              <property name="text">
-              <string>DESCRIÇÃO COMPL.</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>REFERÊNCIA</string>
+              <string>Referência</string>
              </property>
             </column>
             <column>
@@ -955,22 +950,17 @@ text-align: center;</string>
             </column>
             <column>
              <property name="text">
-              <string>SALDO</string>
+              <string>Saldo</string>
              </property>
             </column>
             <column>
              <property name="text">
-              <string>LOCAL</string>
+              <string>Local</string>
              </property>
             </column>
             <column>
              <property name="text">
-              <string>ARMAZEM</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>NCM</string>
+              <string>Armazem</string>
              </property>
             </column>
            </widget>
